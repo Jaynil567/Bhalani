@@ -16,17 +16,18 @@ app.secret_key = "secret123"
 app.permanent_session_lifetime = timedelta(days=30)
 
 # ------------ Google Sheets Setup --------------
-scope = ['https://spreadsheets.google.com/feeds',
-'https://www.googleapis.com/auth/drive']
+scope = [
+"https://spreadsheets.google.com/feeds",
+"https://www.googleapis.com/auth/drive"
+]
 
-credentials_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
-
-creds = ServiceAccountCredentials.from_json_keyfile_dict(
-credentials_dict, scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name(
+"/etc/secrets/credentials.json", scope
+)
 
 client = gspread.authorize(creds)
-sheet = client.open("Bhalani Orders").sheet1
 
+sheet = client.open("Bhalani Orders").sheet1
 # ------------ Database Setup --------------
 def get_db():
     conn = psycopg2.connect("postgresql://neondb_owner:npg_hHVzxn6yEP3X@ep-weathered-heart-a1bu4ids-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
