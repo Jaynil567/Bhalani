@@ -294,41 +294,41 @@
 
     </div>
     <audio id="orderSound" preload="auto">
-    <source src="{{ url_for('static', filename='alert.mp3') }}" type="audio/mpeg">
-</audio>
+        <source src="{{ url_for('static', filename='alert.mp3') }}" type="audio/mpeg">
+    </audio>
     <script>
 
 
 
 
-        let currentOrders = {{ orders|length }};
-let lastOrders = localStorage.getItem("lastOrders");
+        let currentOrders = {{ orders| length }};
+        let lastOrders = localStorage.getItem("lastOrders");
 
-if(lastOrders == null){
-    localStorage.setItem("lastOrders", currentOrders);
-}else{
+        if (lastOrders == null) {
+            localStorage.setItem("lastOrders", currentOrders);
+        } else {
 
-    if(currentOrders > lastOrders){
+            if (currentOrders > lastOrders) {
 
-        let audio = document.getElementById("orderSound");
-        audio.play();
+                let audio = document.getElementById("orderSound");
+                audio.play();
 
-    }
+            }
 
-    localStorage.setItem("lastOrders", currentOrders);
+            localStorage.setItem("lastOrders", currentOrders);
 
-}
+        }
 
-document.addEventListener("click", function(){
+        document.addEventListener("click", function () {
 
-let audio = document.getElementById("orderSound");
+            let audio = document.getElementById("orderSound");
 
-audio.play().then(()=>{
-audio.pause();
-audio.currentTime = 0;
-});
+            audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
 
-},{once:true})
+        }, { once: true })
 
 
 
@@ -420,18 +420,31 @@ class="btn btn-success">Mark Delivered</button>`
             sidebar.classList.toggle("active")
 
             if (sidebar.classList.contains("active")) {
+
                 overlay.style.display = "block"
+
+                // Sidebar open → refresh stop
+                clearTimeout(refreshTimer)
+
             } else {
+
                 overlay.style.display = "none"
+
+                // Sidebar close → refresh restart
+                refreshTimer = startRefresh()
+
             }
 
         }
+
 
         document.getElementById("overlay").onclick = function () {
 
             document.getElementById("sidebar").classList.remove("active")
             this.style.display = "none"
 
+            // Overlay click → refresh restart
+            refreshTimer = startRefresh()
         }
 
 
