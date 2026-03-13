@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+overflow-x:hidden;
+}
+
+.sidebar{
+height:100vh;
+background:#2c3e50;
+color:white;
+position:fixed;
+width:220px;
+z-index:1000;
+}
+
+.sidebar a{
+color:white;
+display:block;
+padding:12px;
+text-decoration:none;
+}
+
+.sidebar a:hover{
+background:#34495e;
+}
+
+.content{
+margin-left:220px;
+padding:20px;
+}
+
+.navbar{
+margin-left:220px;
+}
+
+.logo-circle{
+width:35px;
+height:35px;
+background:#0d6efd;
+color:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.3);
+display:none;
+z-index:999;
+}
+
+@media(max-width:768px){
+
+.sidebar{
+left:-220px;
+transition:0.3s;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.navbar{
+margin-left:0;
+}
+
+.content{
+margin-left:0;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar" id="sidebar">
+
+<h4 class="text-center mt-3 text-warning">Bhalani Enterprises</h4>
+
+<a href="/dashboard">Dashboard</a>
+<a href="/order">Place Order</a>
+<a href="#">My Orders</a>
+<a class="text-danger" href="/logout">Logout</a>
+
+</div>
+
+<div id="overlay"></div>
+
+<nav class="navbar navbar-light bg-light shadow">
+
+<div class="container-fluid d-flex justify-content-between align-items-center">
+
+<div class="d-flex align-items-center gap-2">
+
+<button class="btn btn-outline-primary d-md-none" onclick="toggleSidebar()">☰</button>
+
+<span>{% block title %}{% endblock %}</span>
+
+</div>
+
+<div class="d-flex align-items-center gap-2">
+
+<div class="logo-circle">
+{{ company[0] }}
+</div>
+
+<strong class="d-none d-sm-block">{{ company }}</strong>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="content">
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+<script>
+
+function toggleSidebar(){
+
+const sidebar=document.getElementById("sidebar")
+const overlay=document.getElementById("overlay")
+
+sidebar.classList.toggle("active")
+
+if(sidebar.classList.contains("active")){
+overlay.style.display="block"
+}else{
+overlay.style.display="none"
+}
+
+}
+
+document.getElementById("overlay").onclick=function(){
+
+document.getElementById("sidebar").classList.remove("active")
+this.style.display="none"
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
