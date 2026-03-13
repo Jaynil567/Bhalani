@@ -7,8 +7,6 @@ from datetime import datetime
 import time
 import gspread
 import psycopg2
-import os
-import json
 
 #------------ Flask App Setup --------------
 app = Flask(__name__)
@@ -16,18 +14,13 @@ app.secret_key = "secret123"
 app.permanent_session_lifetime = timedelta(days=30)
 
 # ------------ Google Sheets Setup --------------
-scope = [
-"https://spreadsheets.google.com/feeds",
-"https://www.googleapis.com/auth/drive"
-]
+scope = ['https://spreadsheets.google.com/feeds',
+'https://www.googleapis.com/auth/drive']
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-"/etc/secrets/credentials.json", scope
-)
-
+creds = ServiceAccountCredentials.from_json_keyfile_name('/etc/secrets/credentials.json', scope)
 client = gspread.authorize(creds)
-
 sheet = client.open("Bhalani Orders").sheet1
+
 # ------------ Database Setup --------------
 def get_db():
     conn = psycopg2.connect("postgresql://neondb_owner:npg_hHVzxn6yEP3X@ep-weathered-heart-a1bu4ids-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
@@ -269,4 +262,11 @@ def logout():
     return redirect("/login")
 
 
-app.run(debug=True)
+app.run(host="0.0.0.0", port=10000)
+
+
+
+
+
+
+
