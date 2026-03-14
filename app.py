@@ -134,7 +134,12 @@ def order():
         product_ids = request.form.getlist("product_id")
         qtys = request.form.getlist("qty")
 
-        order_id = f"{datetime.now().strftime('%m%d%H%M%S')}{session['customer_id']}{random.randint(10,99)}"
+        rows=sheet.get_all_values()
+        rows = rows[1:]  # exclude header
+        last_row = rows[-1] if rows else []
+        order_id = int(last_row[4]) if last_row and last_row[4].isdigit() else 1111
+        order_id += 1
+        
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         for i in range(len(product_ids)):
 
