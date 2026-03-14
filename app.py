@@ -8,6 +8,8 @@ import time
 import gspread
 import psycopg2
 
+order_id=1258
+
 #------------ Flask App Setup --------------
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -132,7 +134,7 @@ def order():
         product_ids = request.form.getlist("product_id")
         qtys = request.form.getlist("qty")
 
-        order_id = f"{datetime.now().strftime('%m%d%H%M%S')}{session['customer_id']}{random.randint(10,99)}"
+        order_id = f"{order_id+1}"
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         for i in range(len(product_ids)):
 
